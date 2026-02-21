@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  result:
+    build: ./result
+    image: fawad9/result:latest
+    depends_on:
+      - db
+      - redis
+
+  worker:
+    build: ./worker
+    image: fawad9/worker:latest
+    depends_on:
+      - db
+      - redis
+
+  vote:
+    build: ./vote
+    image: fawad9/vote:latest
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
