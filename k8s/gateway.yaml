@@ -1,14 +1,33 @@
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: vote-app-gateway
+  name: vote-ingress
   namespace: vote-app
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    acme.cert-manager.io/http01-edit-in-place: "true"  # allows cert-manager to patch this ingress for challenges
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
-  gatewayClassName: nginx
-  listeners:
-    - name: http
-      protocol: HTTP
-      port: 80
-      allowedRoutes:
-        namespaces:
-          from: Same
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - fhs-vote.diogohack.shop
+    secretName: voting-app-tls
+  rules:
+  - host: fhs-vote.diogohack.shop
+    http:
+      paths:
+      - path: /result
+        pathType: Prefix
+        backend:
+          service:
+            name: result
+            port:
+              number: 80
+      - path: /vote
+        pathType: Prefix
+        backend:
+          service:
+            name: vote
+            port:
+              number: 80

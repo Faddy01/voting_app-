@@ -14,7 +14,16 @@ spec:
         app: worker
     spec:
       containers:
-        - name: worker
-          image: fawad9/worker:v3.0
-          ports:
-            - containerPort: 80
+      - name: worker
+        image: fawad9/worker:latest
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: POSTGRES_PASSWORD

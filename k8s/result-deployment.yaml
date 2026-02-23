@@ -14,7 +14,18 @@ spec:
         app: result
     spec:
       containers:
-        - name: result
-          image: fawad9/result:v3.0
-          ports:
-            - containerPort: 80
+      - name: result
+        image: fawad9/result:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: POSTGRES_PASSWORD

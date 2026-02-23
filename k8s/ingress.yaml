@@ -3,25 +3,34 @@ kind: Ingress
 metadata:
   name: vote-ingress
   namespace: vote-app
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+  # annotations:
+  #   cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  #   nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   ingressClassName: nginx
+  # tls:
+  # - hosts:
+  #   - fhs-vote.diogohack.shop
+  #   - fhs-result.diogohack.shop
+  #   secretName: voting-app-tls
   rules:
-  - http:
+  - host: fhs-result.diogohack.shop
+    http:
       paths:
-      - path: /result
-        pathType: Prefix
-        backend:
-          service:
-            name: result
-            port:
-              number: 80
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: vote
+            name: result-service
+            port:
+              number: 80
+  - host: fhs-vote.diogohack.shop
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: vote-service
             port:
               number: 80

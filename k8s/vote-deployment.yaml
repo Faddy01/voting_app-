@@ -15,6 +15,11 @@ spec:
     spec:
       containers:
       - name: vote
+        env:
+          - name: REDIS_HOST
+            value: "redis"
+          - name: REDIS_PORT
+            value: "6379"
         image: fawad9/vote:v3.0
         ports:
         - containerPort: 5000

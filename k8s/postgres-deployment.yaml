@@ -15,14 +15,19 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: postgres:15
-        env:
-        - name: POSTGRES_USER
-          value: postgres
-        - name: POSTGRES_PASSWORD
-          value: postgres
-        - name: POSTGRES_DB
-          value: votes
+        image: postgres:15-alpine
         ports:
         - containerPort: 5432
----
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_DB
+          value: "votes"
