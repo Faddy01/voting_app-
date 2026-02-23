@@ -1,3 +1,4 @@
+apiVersion: appv1
 name: Build and Deploy to EKS
 
 on:
@@ -9,7 +10,7 @@ env:
   AWS_REGION: eu-central-1
   ECR_REPOSITORY: vote
   CLUSTER_NAME: voting-app-cluster
-  NAMESPACE: voting-app
+  NAMESPACE: vote-app
 
 jobs:
   deploy:

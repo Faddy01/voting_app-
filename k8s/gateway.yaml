@@ -1,8 +1,8 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: voting-app-gateway
-  namespace: voting-app
+  name: vote-app-gateway
+  namespace: vote-app
 spec:
   gatewayClassName: nginx
   listeners:

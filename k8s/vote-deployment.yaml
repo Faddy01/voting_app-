@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: vote
-  namespace: voting-app
+  namespace: vote-app
 spec:
   replicas: 2
   selector:
@@ -15,18 +15,7 @@ spec:
     spec:
       containers:
       - name: vote
-        image: YOUR_DOCKERHUB_USERNAME/vote:latest
+        image: fawad9/vote:v3.0
         ports:
         - containerPort: 5000
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: vote
-  namespace: voting-app
-spec:
-  selector:
-    app: vote
-  ports:
-  - port: 80
-    targetPort: 5000
