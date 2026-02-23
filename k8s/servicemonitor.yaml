@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: vote-app-monitor
+  namespace: monitoring
+  labels:
+    release: prometheus
+spec:
+  namespaceSelector:
+    matchNames:
+    - vote-app
+  selector:
+    matchLabels:
+      app: vote
+  endpoints:
+  - port: http
+    interval: 15s
+  
